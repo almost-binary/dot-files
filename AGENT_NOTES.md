@@ -46,7 +46,7 @@
 
 - **Prepare changes for replication**
 1. Confirm paths assume `~/dotfiles` unless documented otherwise.
-2. Confirm symlink/bootstrap instructions remain accurate.
+2. Confirm `./scripts/bootstrap.sh` remains the default setup path and works as documented.
 3. Keep generated/cache files out of tracked core configuration when possible.
 
 ## 5. Context & Decisions

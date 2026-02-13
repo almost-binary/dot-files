@@ -24,6 +24,10 @@ It is designed to be hosted on GitHub and replicated quickly on new machines.
 ## Current State
 
 - `zsh/zshenv`: base zsh entrypoint (intended to be linked to `~/.zshenv`)
+- `zsh/.zshrc`, `zsh/aliases.zsh`, `zsh/functions.zsh`, `zsh/plugins.zsh`: minimal modular zsh config
+- `tmux/tmux.conf`: minimal tmux baseline
+- `nvim/init.lua`: minimal Neovim baseline
+- `scripts/bootstrap.sh`: idempotent symlink bootstrap for Linux/macOS
 - `zsh/.zcompdump`: generated completion cache (ignored via .gitignore)
 - Because `ZDOTDIR` is set, zsh loads configuration from `zsh/` instead of `$HOME`.
 
@@ -31,25 +35,26 @@ It is designed to be hosted on GitHub and replicated quickly on new machines.
 
 1. Clone this repo to `~/dotfiles`.
    This setup assumes the repository is located at `~/dotfiles`.
-2. Symlink zsh entrypoint:
+2. Run bootstrap:
 
 ```bash
-ln -sf ~/dotfiles/zsh/zshenv ~/.zshenv
+./scripts/bootstrap.sh
 ```
 
 3. Open a new shell session.
 
-## Planned Structure
+## Structure
 
 ```text
 dotfiles/
+  scripts/
+    bootstrap.sh
   zsh/
     zshenv
     .zshrc
     aliases.zsh
     functions.zsh
-    linux.zsh
-    macos.zsh
+    plugins.zsh
   nvim/
     init.lua
   tmux/
