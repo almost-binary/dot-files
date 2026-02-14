@@ -26,7 +26,7 @@ It is designed to be hosted on GitHub and replicated quickly on new machines.
 - `zsh/zshenv`: base zsh entrypoint (intended to be linked to `~/.zshenv`)
 - `zsh/.zshrc`, `zsh/aliases.zsh`, `zsh/functions.zsh`, `zsh/plugins.zsh`: minimal modular zsh config
 - `tmux/tmux.conf`: minimal tmux baseline
-- `nvim/init.lua`: minimal Neovim baseline
+- `nvim/init.lua` + `nvim/lua/config/*.lua`: modular Neovim baseline with options, Java LSP bootstrap, and `:F` formatter command
 - `scripts/bootstrap.sh`: idempotent symlink bootstrap for Linux/macOS
 - `zsh/.zcompdump`: generated completion cache (ignored via .gitignore)
 - Because `ZDOTDIR` is set, zsh loads configuration from `zsh/` instead of `$HOME`.
@@ -57,6 +57,10 @@ dotfiles/
     plugins.zsh
   nvim/
     init.lua
+    lua/config/
+      options.lua
+      format.lua
+      java_lsp.lua
   tmux/
     tmux.conf
 ```
@@ -68,3 +72,13 @@ dotfiles/
 - Prefer defaults unless there is a clear productivity gain.
 - Avoid duplicate functionality across tools.
 - Keep machine-specific settings in untracked local override files.
+
+## Neovim Formatting
+
+- Command: `:F` formats the current file.
+- Supported filetypes:
+  - `nix` via `nixfmt`
+  - `java`:
+    - prefer `google-java-format` when `expandtab` is enabled and indent width is compatible (`2` or `4`; `4` uses `--aosp`)
+    - fallback to Java LSP (`jdtls`) when `google-java-format` is missing or cannot match Neovim indentation settings (tabs or non-2/4 widths)
+    - `jdtls` formatting receives buffer-local `tabSize` and `insertSpaces` from Neovim (`shiftwidth/tabstop` + `expandtab`)
