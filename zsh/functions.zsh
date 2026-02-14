@@ -39,3 +39,23 @@ git_prompt_segment() {
   [[ -z "$flags" ]] && flags='='
   print -r -- "git:${branch}[${flags}]"
 }
+
+_update_prompt() {
+  local git_seg status_seg
+
+  git_seg=$(git_prompt_segment)
+  if (( PROMPT_LAST_STATUS == 0 )); then
+    status_seg='%F{green}✓%f'
+  else
+    status_seg='%F{red}x%f'
+  fi
+
+  PROMPT="${status_seg} %F{246}%n@%m%f:%F{244}%~%f"
+  [[ -n "$git_seg" ]] && PROMPT+=" %F{242}${git_seg}%f"
+  PROMPT+=" %# "
+}
+
+_prompt_precmd() {
+  PROMPT_LAST_STATUS=$?
+  _update_prompt
+}
