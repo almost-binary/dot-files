@@ -26,6 +26,15 @@ local function root_dir(bufnr)
     return matches[1] and vim.fs.dirname(matches[1]) or vim.fn.getcwd()
 end
 
+local function setup_completion(bufnr)
+    vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+    vim.keymap.set("i", "<C-Space>", "<C-x><C-o>", {
+        buffer = bufnr,
+        silent = true,
+        desc = "Trigger LSP completion",
+    })
+end
+
 function M.start(bufnr)
     if vim.bo[bufnr].filetype ~= "java" then
         return
@@ -66,6 +75,17 @@ end
 
 function M.setup()
     local group = vim.api.nvim_create_augroup("JavaLspBootstrap", { clear = true })
+
+    vim.api.nvim_create_autocmd("LspAttach", {
+        group = group,
+        callback = function(args)
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            if client and client.name == "jdtls" then
+                setup_completion(args.buf)
+            end
+        end,
+    })
+
     vim.api.nvim_create_autocmd("FileType", {
         group = group,
         pattern = "java",

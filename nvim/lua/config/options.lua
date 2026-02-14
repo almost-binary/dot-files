@@ -11,6 +11,7 @@ function M.setup()
         ignorecase = true,
         smartcase = true,
         clipboard = "unnamedplus",
+        completeopt = { "menu", "menuone", "noselect" },
     }
 
     for key, value in pairs(options) do

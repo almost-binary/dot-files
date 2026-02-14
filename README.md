@@ -82,3 +82,10 @@ dotfiles/
     - prefer `google-java-format` when `expandtab` is enabled and indent width is compatible (`2` or `4`; `4` uses `--aosp`)
     - fallback to Java LSP (`jdtls`) when `google-java-format` is missing or cannot match Neovim indentation settings (tabs or non-2/4 widths)
     - `jdtls` formatting receives buffer-local `tabSize` and `insertSpaces` from Neovim (`shiftwidth/tabstop` + `expandtab`)
+
+## Neovim Completion
+
+- Java completion is provided by Java LSP (`jdtls`).
+- For Java buffers, `omnifunc` is set to `v:lua.vim.lsp.omnifunc`.
+- In insert mode, press `<C-Space>` to trigger LSP completion (`<C-x><C-o>`).
+- Completion menu behavior uses `completeopt=menu,menuone,noselect`.
